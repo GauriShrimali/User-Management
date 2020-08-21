@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" ng-controller="myCtrl">
+<head>
+    <meta charset="utf-8">
+    <title>STUDENT AVERAGE MARKS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+          crossorigin="anonymous">
+    <script data-require="angular.js@1.4.x" src="https://code.angularjs.org/1.4.3/angular.js"
+            data-semver="1.4.3"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.1.0/echarts-en.common.js"></script>
+
+    <style>
+        body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin:10px;
+        margin-right:10px;
+        top:15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="row">
+
+    <div class="col-md-6">
+        AVERAGE MARKS OF STUDENTS FROM DIFFERENT SCHOOLS WITH DYNAMIC CHART IN THE FOLLOWING SUBJECTS:<br><br>
+        1] Mathematics<br>
+        2] Physics<br>
+        3] Chemistry<br>
+        4] English<br>
+        5] Optional Subject (Physical Education, Fine Arts, Economics, Biology)<br>
+        <br><br>
+<!--DROPDOWN-->
+        <select name="SUBJECT" ng-model="student.subject" class="form-control" style="width:200px;" >
+                <option value="" hidden>SUBJECT NAME</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Physics">Physics</option>
+            <option value="English">English</option>
+            <option value="Optional">Optional</option>
+        </select>
+
+
+<!--MODAL-->
+        <button type="button" class="btn btn-light float-right" data-toggle="modal" data-target="#myModal">
+           ADD MARKS
+        </button>
+<br><br><br>
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">AVERAGE MARKS</h4>
+                        <button type="button" class="close" data-dismiss="modal">x</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="form-group">
+                                <label for="st_marys">ST. MARY'S:</label>
+                                <input type="number" ng-model="student.st_marys" class="form-control" id="st_marys"
+                                       placeholder="Enter marks out of 100"
+                                       name="st_marys">
+                                <label for="st_pauls">ST. PAUL'S:</label>
+                                <input type="number" ng-model="student.st_pauls" class="form-control" id="st_pauls"
+                                       placeholder="Enter marks out of 100"
+                                       name="st_pauls">
+                                <label for="dps">DPS:</label>
+                                <input type="number" ng-model="student.dps" class="form-control" id="dps"
+                                       placeholder="Enter marks out of 100"
+                                       name="dps">
+                                <label for="mmps">MMPS:</label>
+                                <input type="number" ng-model="student.mmps" class="form-control" id="mmps"
+                                       placeholder="Enter marks out of 100"
+                                       name="mmps">
+                                <label for="mds">MDS:</label>
+                                <input type="number" ng-model="student.mds" class="form-control" id="mds"
+                                       placeholder="Enter marks out of 100"
+                                       name="mds">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        <button ng-click="addStudent()" class="btn btn-primary" data-dismiss="modal">Save</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<br>
+<!--TABLE-->
+        <div class="container">
+            <table class="table table-bordered text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>SUBJECT</th>
+                        <th>ST. MARY'S</th>
+                        <th>ST. PAUL'S</th>
+                        <th>DPS</th>
+                        <th>MMPS</th>
+                        <th>MDS</th>
+                        <th>OPERATION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in student_details">
+                        <td>{{ x.subject }}</td>
+                        <td>{{ x.st_marys }}</td>
+                        <td>{{ x.st_pauls }}</td>
+                        <td>{{ x.dps }}</td>
+                        <td>{{ x.mmps }}</td>
+                        <td>{{ x.mds }}</td>
+                        <td>
+                            <div class="btn-group">
+                        <button type="button" class="btn btn-info" ng-click="edit(x,$index)" data-dismiss="modal"
+                                data-toggle="modal" data-target="#myModal1" itemid="">
+                            <i class="fas fa-edit"></i>
+                        </button>
+
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-danger" ng-click="remove($index)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<!--MODAL 2-->
+    <div class="modal fade" id="myModal1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">AVERAGE MARKS</h4>
+                        <button type="button" class="close" data-dismiss="modal">x</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="form-group">
+                                <label for="st_marys">ST. MARY'S:</label>
+                                <input type="number" ng-model="student_edit.st_marys" class="form-control" id="st_marys1"
+                                       placeholder="Enter marks out of 100"
+                                       name="st_marys">
+                                <label for="st_pauls">ST. PAUL'S:</label>
+                                <input type="number" ng-model="student_edit.st_pauls" class="form-control" id="st_pauls1"
+                                       placeholder="Enter marks out of 100"
+                                       name="st_pauls">
+                                <label for="dps">DPS:</label>
+                                <input type="number" ng-model="student_edit.dps" class="form-control" id="dps1"
+                                       placeholder="Enter marks out of 100"
+                                       name="dps">
+                                <label for="mmps">MMPS:</label>
+                                <input type="number" ng-model="student_edit.mmps" class="form-control" id="mmps1"
+                                       placeholder="Enter marks out of 100"
+                                       name="mmps">
+                                <label for="mds">MDS:</label>
+                                <input type="number" ng-model="student_edit.mds" class="form-control" id="mds1"
+                                       placeholder="Enter marks out of 100"
+                                       name="mds">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        <button ng-click="saveEditStudent()" class="btn btn-primary" data-dismiss="modal">Save</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--GRAPH-->
+    <div class="col-md-6">
+        <div id="main" style="width:700px;height:500px;"></div>
+    </div>
+</div>
+<!-- jQuery 2.1.4 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.8/js/adminlte.min.js"></script>
+    <!-- Angular -->
+    <!-- Angular -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script src="mycontroller.js"></script>
+
+</body>
+</html>

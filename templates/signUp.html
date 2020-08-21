@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" ng-controller="myCtrl">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SIGNUP PAGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+          crossorigin="anonymous">
+    <script data-require="angular.js@1.4.x" src="https://code.angularjs.org/1.4.3/angular.js"
+            data-semver="1.4.3"></script>
+    <style>
+        body, html
+        {
+          height: 100%;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+
+        input[type=text], input[type=password], input[type=email]
+        {
+          width: 85%;
+          padding: 12px 20px;
+          margin: 10px 10px;
+          display: inline-block;
+          border:none;
+          background-color:WhiteSmoke;
+        }
+
+        button {
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 10px;
+          cursor: pointer;
+          width: 100%;
+          border:none;
+        }
+
+        button:hover {
+          opacity: 0.5;
+        }
+
+        .cancelbtn {
+          width: 100%;
+          padding: 10px 18px;
+          background-color: #f44336;
+
+        }
+
+        .btn1 {
+            width: auto;
+          padding: 10px 18px;
+          background-color: transparent;
+            }
+
+        .container {
+          padding: 16px;
+        }
+
+        .modal {
+          width: 100%;
+          height: 100%;
+          padding-top: 60px;
+        }
+
+        .modal-content {
+          margin: 5% auto 15% auto;
+          width: 80%;
+          background-color: transparent;
+        }
+        }
+
+        a:hover, a:active {
+          background-color: LightGreen;
+        }
+
+        .imgcontainer {
+          text-align: center;
+          margin: 24px 0 12px 0;
+          position: relative;
+        }
+
+        img.avatar {
+          width: 10%;
+          height: 10%
+        }
+
+        .bg-text {
+          font-weight: bold;
+          position: absolute;
+          top: 70%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 2;
+          margin-left:29%;
+          width: 45%;
+          padding: 20px;
+          text-align: center;
+        }
+        }
+    </style>
+</head>
+<body>
+        <div>
+            <img src="static/img/background.jpg" style="width:60%;height:1000px;background-repeat: no-repeat;background-size: cover;">
+        </div>
+<div class="bg-text">
+<form style="border:none;" action="/signed_up" method="post">
+  <div class="container">
+      <div class="imgcontainer">
+      <img src="https://cdn1.iconfinder.com/data/icons/freeline/32/account_friend_human_man_member_person_profile_user_users-512.png" alt="User" class="avatar">
+    </div>
+    <h1 align="center">SIGN UP</h1>
+        <input type="text" placeholder="Enter ID" name="id" id="id" required>
+        <input type="text" placeholder="Enter First Name" name="fname" id="fname" required>
+        <input type="text" placeholder="Enter Last Name" name="lname" id="lname" required>
+        <input type="text" placeholder="Enter Contact Number" name="contact" id="contact" required>
+        <input type="text" placeholder="Enter Salary" name="salary" id="salary" required>
+        <input type="text" placeholder="Enter Username" name="uname" id="uname" required>
+        <input type="email" placeholder="Enter Email" name="email" id="email" required>
+        <select class="browser-default custom-select float-left" style="width:150px;margin-left:40px;" datatype="text" name="type" id="type">
+                        <option value="User">USER</option>
+                        <option value="Admin">ADMIN</option>
+        </select>
+              <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+              <input type="password" placeholder="Repeat Password" name="re_psw" id="re_psw" required>
+    <br><br>
+
+       <button type="submit" class="btn" style="width:200px;background-color:MediumSeaGreen;color:white;" formaction="/signed_up">Sign Up</button>
+  </div>
+    <div class="flashes" style="width:70%;padding-left:150px;">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category,message in messages %}
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        <button type="button" class="close" data-dismiss="alert"></button>
+                            {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+            </div>
+</form>
+
+</div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+        <script src="../static/js/mycontroller.js"></script>
+</body>
+</html>

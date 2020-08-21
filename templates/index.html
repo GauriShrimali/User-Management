@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" ng-controller="myCtrl">
+<head>
+    <title>INCENTIUS USER MANAGEMENT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/fontawesome.min.css">-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+          crossorigin="anonymous">
+<!--    <script data-require="angular.js@1.4.x" src="https://code.angularjs.org/1.4.3/angular.js"-->
+<!--            data-semver="1.4.3"></script>-->
+    <style>
+        body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 15px;
+        }
+        .navbar {
+        width: 100%;
+        background-color: #555;
+        height: 60px;
+        top:-15px;
+        }
+
+        .pagination
+        {cursor: pointer;}
+
+        .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        }
+
+        .pagination a.active {
+        background-color: #4CAF50;
+        color: white;
+        border: 1px solid #4CAF50;
+        }
+
+        .pagination a:hover:not(.active) {background-color: #ddd;}
+
+        .pagination a:first-child {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        }
+
+        .pagination a:last-child {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        .navbar a {
+        padding: 12px;
+        color: black;
+        text-decoration: none;
+        font-size: 17px;
+        }
+        input[type=text], input[type=password],input[type=email] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 10px 10px;
+        display: inline-block;
+        border:none;
+        background-color:WhiteSmoke;
+        }
+        th
+        {cursor: pointer;}
+    </style>
+
+</head>
+<body>
+
+<div class="row">
+    <!--SEARCH BAR-->
+    <div class="navbar">
+        <div class="col-lg-9">
+<!--        <form class="form-inline" method= "post" action="/profile_user">-->
+            <span>
+            <a href="https://incentius.com/">
+                <img src="http://incentius.com/static/img/home/logo.png" class="left" alt="Cinque Terre" width="57"
+                     height="57" style="top:20px,left:20px">
+            </a>
+            </span>
+        </div>
+        <div class="col-lg-2 float-right">
+        <form method= "post" action="/profile_user">
+            <div class="container float-right">
+            <button type="button" class="btn btn-primary btn-md float-right" data-toggle="modal" data-target="#myProfileModal" ng-click="getProfile()">
+                My Profile
+            </button>
+            </div>
+        <div class="modal fade" id="myProfileModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">My Profile</h4>
+                        <button type="button" class="close" data-dismiss="modal">x</button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form action="/profile_user" method="post">
+                            <label for="uname">USERNAME</label>
+                        <input type="text" class="form-control" readonly value="[[profile.uname]]">
+                            <label for="psw">PASSWORD</label>
+                        <input type="text" class="form-control" readonly value="[[profile.psw]]">
+                            <label for="email">EMAIL</label>
+                        <input type="email" class="form-control" readonly value="[[profile.email]]">
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger" formaction="/profile_delete">Delete Account</button>
+<!--                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#editProfile" data-dismiss="modal">Edit Account</button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="modal fade" id="editProfile">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Profile</h4>
+                        <button type="button" class="close" data-dismiss="modal">x</button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form action="/profile_edit" method="post">
+                            <label for="uname">USERNAME </label>
+                        <input type="text" placeholder=[[edit_profile.uname]] ng-model="edit_profile.uname" disabled>
+                            <label for="psw">PASSWORD </label>
+                        <input type="text" placeholder=[[edit_profile.psw]] ng-model="edit_profile.psw">
+                            <label for="email">EMAIL </label>
+                        <input type="email" placeholder=[[edit_profile.email]] ng-model="edit_profile.email">
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfile"
+                                ng-click="editProfile()" data-dismiss="modal" formaction="/profile_edit">Submit Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+        </span>
+        </div>
+        <div class="col-lg-1">
+        <form class="form-inline" method= "post" action="/logout">
+<!--            <span>-->
+            <div class="container float-right">
+                <button type="button" class="btn btn-danger btn-md" data-toggle="modal" data-target="#logoutModal">
+                    Logout
+                </button>
+            </div>
+<!--            </span>-->
+                <div class="modal fade" id="logoutModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h4 class="modal-title">LOGOUT</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <div class="modal-body">
+                                Are you sure you want to logout?
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger" formaction="/logout">Logout</button>
+                                <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+</div>
+   <!-- <div class="flashes">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category,message in messages %}
+            <div class="alert alert-success alert-dismissible fade show">
+                <button type="button" class="close" data-dismiss="alert" >&times;</button>
+                 {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %} -->
+    </div>
+    <p style="font-size:130%;font-family:Helvetica;color:dark;text-align:justify;text-justify: inter-word;">
+        Incentius is a new age technology company targeted at delivering high end analytical solutions, developing
+        advanced technology solutions for complex business process management systems, creating in-depth analytical
+        models and data driven insightful reporting systems.</p>
+    <p style="font-size:150%;font-family:Helvetica;color:light;">OUR TEAM:</b></p>
+
+<div class="row">
+    <div class="col-lg-5">
+        <select class="browser-default custom-select" name="TYPE" ng-model="emp_filter_a" style="width:100px;">
+            <option value="">ALL</option>
+            <option value="User">USER</option>
+            <option value="Admin">ADMIN</option>
+        </select>
+    </div>
+
+
+    <div class="col-lg-6">
+            <input class="form-control float-right" ng-model="emp_filter" placeholder="Search..."
+               style="background-color:lightgray;border:none;color:black;width:50%;">
+    </div>
+    <div class="col-lg-1">
+            <button>
+<!--            <button type="button" class="btn btn-dark float-right" data-toggle="modal" data-target="#myModal" ng-if="role=='Admin'">-->
+                ADD
+            </button>
+    </div>
+</div>
+<div class="row">
+    <div class="container col-lg-6" style="padding-top:20px;margin-left:0px;margin-right:0px;">
+    <div class="pagination" >
+<!--        <a>&laquo;</a>-->
+        <li ng-repeat="n in [].constructor(pg) track by $index" ng-click="get_user($index)">
+            <a>[[ $index + 1 ]]</a>
+        </li>
+<!--        <a>&raquo;</a>-->
+    </div>
+    </div>
+    <div class="col-lg-6 float-right" style="padding-top:20px;" ng-if="role=='Admin'">
+        <button>
+<!--        <button type="submit" class="btn btn-success float-right" ng-click="salary_insight()" data-toggle="modal" data-target="#salaryModal">-->
+            Salary Insight
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="salaryModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h4 class="modal-title">SALARY INSIGHT</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div id="main" style="width:800px; height:400px;"></div>
+                    </div>
+                </div>
+            </div>
+</div>
+<!--MODAL-->
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h4 class="modal-title">Details</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="container">
+                        <form class="was-validated" method="post">
+                        <!--<div class="form-group">-->
+<!--                                <label for="id">ID:</label>-->
+                                <input type="number" ng-model="user.id" class="form-control" id="id"
+                                       placeholder="Enter ID"
+                                       name="id" required>
+                                <div class="invalid-feedback">Please fill ID field.</div>
+
+<!--                                <label for="fname">First Name:</label>-->
+                                <input type="text" ng-model="user.fname" class="form-control" id="fname"
+                                       placeholder="Enter first name" name="fname" required>
+
+                                <div class="invalid-feedback">Please fill first name field.</div>
+
+<!--                                <label for="lname">Last Name:</label>-->
+                                <input type="text" ng-model="user.lname" class="form-control" id="lname"
+                                       placeholder="Enter last name" name="lname" required>
+                            <div class="invalid-feedback">Please fill last name field.</div>
+
+<!--                                <label for="email">Email:</label>-->
+                                <input type="email" ng-model="user.email" class="form-control" id="email"
+                                       placeholder="Enter email" name="email" required>
+                            <div class="invalid-feedback">Please fill first email field(include @).</div>
+
+<!--                                <label for="contact">Contact No.:</label>-->
+                                <input type="text" ng-model="user.contact" class="form-control" id="contact"
+                                       placeholder="Enter Contact No." name="contact" required>
+                            <div class="invalid-feedback">Please fill first contact field.</div>
+<!--                            </div>-->
+
+                            <input type="text" ng-model="user.uname" class="form-control" id="uname"
+                                       placeholder="Enter Username"
+                                       name="uanme" required>
+                                <div class="invalid-feedback">Please fill username field.</div>
+
+                            <input type="number" ng-model="user.salary" class="form-control" id="salary"
+                                       placeholder="Enter salary"
+                                       name="salary" required>
+                                <div class="invalid-feedback">Please fill salary field.</div>
+
+                            <input type="psw" ng-model="user.psw" class="form-control" id="psw"
+                                       placeholder="Enter Password"
+                                       name="psw" required>
+                                <div class="invalid-feedback">Please fill password field.</div>
+
+                        <select class="browser-default custom-select" style="width:150px;" name="TYPE" ng-model="user.type" required>
+                            <option value="">ROLE</option>
+                            <option value="User">USER</option>
+                            <option value="Admin">ADMIN</option>
+                        </select>
+                        <div class="invalid-feedback">Please select type field.</div>
+                        <div class="modal-footer">
+                            <button ng-click="addUser()" class="btn btn-primary" data-dismiss="modal" data-require="">Save</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box" style="padding:16px">
+        <table class="table table-bordered text-center" style="width:1250px;">
+            <thead class="thead-light">
+            <tr>
+                <th ng-click="sort('id')">ID
+                    <i ng-class="getSort('id')"></i>
+                </th>
+                <th ng-click="sort('fname')">NAME
+                    <i ng-class="getSort('fname')"></i>
+                </th>
+                <th ng-click="sort('email')">EMAIL
+                    <i ng-class="getSort('email')"></i>
+                </th>
+                <th ng-click="sort('contact')">CONTACT NO.
+                    <i ng-class="getSort('contact')"></i>
+                </th>
+                <th ng-click="sort('salary')">SALARY
+                    <i ng-class="getSort('salary')"></i>
+                </th>
+                <th ng-click="sort('type')">ROLE
+                    <i ng-class="getSort('type')"></i>
+                </th>
+                <th>ICON</th>
+<!--                <th ng-if="role=='Admin'">ICON</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+<!--            <tr ng-repeat="x in emp | orderBy : column : reverse | filter : emp_filter | filter:emp_filter? type:emp_filter_a :'' track by $index ">-->
+                <td>101</td>
+                <td>Amarjeet Singh</td>
+                <td>amar@gmail.com</td>
+                <td>9998887776</td>
+                <td>20000</td>
+                <td>Admin</td>
+                <td>
+                <td ng-if="role=='Admin'">
+                    <div class="btn-group">
+                        <button>
+                        <button type="button" class="btn btn-info" ng-click="editUser(x,$index)" data-dismiss="modal"
+                                data-toggle="modal" data-target="#myModal1">
+                            <i class="fas fa-edit"></i>
+                        </button>
+
+                    </div>
+                    <div class="btn-group">
+                        <button>
+<!--                        <button type="button" class="btn btn-danger" ng-click="remove($index)">-->
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+<!--            <tr ng-repeat="x in emp | orderBy : column : reverse | filter : emp_filter | filter:emp_filter? type:emp_filter_a :'' track by $index ">-->
+                <td>102</td>
+                <td>Charul Singhvi</td>
+                <td>charul@gmail.com</td>
+                <td>8988887776</td>
+                <td>30000</td>
+                <td>User</td>
+                <td ng-if="role=='Admin'">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info" ng-click="editUser(x,$index)" data-dismiss="modal"
+                                data-toggle="modal" data-target="#myModal1">
+                            <i class="fas fa-edit"></i>
+                        </button>
+
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-danger" ng-click="remove($index)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="modal fade" id="myModal1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Details</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="container">
+
+                        <form name="empForm" onsubmit="return validateForm()" method="post">
+                            <label for="ID">ID</label>
+                            <input type="number" ng-model="edit_user.id" class="form-control" id="id1"
+                                   placeholder="[[x.id]]"
+                                   name="id" required disabled>
+
+                            <label for="First Name">First Name</label>
+                            <input type="text" ng-model="edit_user.fname" class="form-control"
+                                   id="fname1"
+                                   placeholder=[[x.fname]] name="fname" required>
+
+                            <label for="Last Name">Last Name</label>
+                            <input type="text" ng-model="edit_user.lname" class="form-control"
+                                   id="lname1"
+                                   placeholder=[[x.lname]] name="lname" required>
+
+                            <label for="Email">Email</label>
+                            <input type="email" ng-model="edit_user.email" class="form-control" id="email1"
+                                   placeholder=[[x.email]] name="email" required>
+
+                            <label for="Contact Number">Contact Number</label>
+                            <input type="text" ng-model="edit_user.contact" class="form-control"
+                                   id="contact1"
+                                   placeholder=[[x.contact]] name="contact" required>
+
+                            <label for="Salary">Salary</label>
+                             <input type="text" ng-model="edit_user.salary" class="form-control"
+                                   id="salary1"
+                                   placeholder=[[x.salary]] name="salary" required>
+
+                            <label for="Role"></label>
+
+                    <select class="browser-default custom-select" style="width:150px;" name="ROLE" ng-model="edit_user.type">
+                        <option value="User">USER</option>
+                        <option value="Admin">ADMIN</option>
+                    </select>
+
+                    <div class="modal-footer">
+                        <!--          <input type="s" class="btn btn-primary float-left"></input>-->
+                        <button ng-click="saveEditUser()" class="btn btn-primary"
+                                data-dismiss="modal">Save
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<div class="jumbotron" style="width:1250px;">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i>Headquarters:</i></h5>
+                    <p>City Vista, Office #13,<br>
+                        3rd Floor, A-wing, Ashoka Nagar,<br>
+                        Fountain road, Kharadi, Pune,<br>
+                        Maharashtra, India 411014<br></p>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="text-right"><i>Contact us at:</i></h4>
+                    <p class="text-right">Phone: +1 267 300 9083<br>
+                        +91 7756953401<br>
+                        Email: info@incentius.com <br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery 2.1.4 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/js/fontawesome.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
+    <!-- AdminLTE App -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.8/js/adminlte.min.js"></script>
+    <!-- Angular -->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>-->
+    <script src="../static/js/mycontroller.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts-en.common.min.js"></script>
+</body>
+</html>

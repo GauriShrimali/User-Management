@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" ng-controller="myCtrl">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LOGIN PAGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+          crossorigin="anonymous">
+    <script data-require="angular.js@1.4.x" src="https://code.angularjs.org/1.4.3/angular.js"
+            data-semver="1.4.3"></script>
+
+    <style>
+        body, html {
+        <!--  height: 100%;-->
+          font-family: Arial, Helvetica, sans-serif;
+          overflow: hidden;
+        }
+
+        input[type=text], input[type=password] {
+          width: 100%;
+          padding: 12px 20px;
+          margin: 10px 10px;
+          display: inline-block;
+          border:none;
+          background-color:WhiteSmoke;
+        }
+
+        button {
+          background-color: MediumSeaGreen;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 10px;
+          cursor: pointer;
+          width: 100%;
+          border:none;
+        }
+
+        button:hover {
+          opacity: 0.5;
+        }
+
+        /* Extra styles for the cancel button */
+        .cancelbtn {
+          width: 100%;
+          padding: 10px 18px;
+          background-color: #f44336;
+
+        }
+
+        .btn1 {
+            width: auto;
+          padding: 10px 18px;
+          background-color: transparent;
+            }
+
+        .container {
+          padding: 16px;
+        }
+
+        span.psw {
+          float: right;
+          padding-top: 16px;
+        }
+
+        /* The Modal (background) */
+        .modal {
+          width: 100%; /* Full width */
+          height: 100%; /* Full height */
+          padding-top: 60px;
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+          margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+          width: 80%; /* Could be more or less, depending on screen size */
+          background-color: transparent;
+          color : black;
+        }
+
+        .close:hover,
+        .close:focus {
+          color: red;
+          cursor: pointer;
+        }
+
+          .cancelbtn {
+             width: 100%;
+          }
+        }
+
+        a:hover, a:active {
+          background-color: LightGreen;
+        }
+
+        .imgcontainer {
+          text-align: center;
+          margin: 24px 0 12px 0;
+          position: relative;
+        }
+
+        img.avatar {
+          width: 10%;
+          height: 10%
+        }
+
+        .bg-text {
+          font-weight: bold;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 2;
+          margin-left:30%;
+          width: 50%;
+          padding: 20px;
+          text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+        <div>
+            <img src="https://www.hiclipart.com/free-transparent-background-png-clipart-mevvm" style="width:60%;height:700px;background-repeat: no-repeat;background-size: cover;">
+        </div>
+        <div class="bg-text">
+        <form class="modal-content animate" action="/log_in" method="post" style="border:none;">
+            <div class="imgcontainer">
+                <img src="https://cdn1.iconfinder.com/data/icons/freeline/32/account_friend_human_man_member_person_profile_user_users-512.png" alt="User" class="avatar">
+            </div>
+            <h1 align="center">LOGIN</h1>
+            <div class="container">
+                <input type="text" placeholder="Enter Username" name="uname" id="uname" required>
+
+                <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+                <button type="submit">Log In</button>
+
+                <button type="submit" formaction="/sign_up" style="background-color:Crimson;"
+                        formnovalidate="formnovalidate">Sign Up
+                </button>
+        </div>
+        </form>
+           <!-- <div class="flashes" style="width:75%;padding-left:150px;">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category,message in messages %}
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        <button type="button" class="close" data-dismiss="alert"></button>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %} --!>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+        <script src="../static/js/mycontroller.js"></script>
+
+</body>
+</html>

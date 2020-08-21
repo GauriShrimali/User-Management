@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html  ng-app="myApp" ng-controller="myCtrl">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <head>
+         <title>sample_dbms</title>
+    </head>
+
+    <body>
+    SEARCH:
+    <input type="text" placeholder="Search a name" ng-model="searchName[name]">
+    <br>
+        <table border="1" width="100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="x in emp" | filter : searchName>
+                    <td>{{emp.id | orderBy:id}}</td>
+                    <td>{{emp.name}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <script>
+            angular.module("myApp",[]).controller("myCtrl",function($scope)
+            {
+                $scope.emp=[
+                {id:'101',name:'Aman Jain'},
+                {id:'110',name:'Jai Jain'},
+                {id:'210',name:'Aman Awasthi'},
+                ];
+            });
+        </script>
+
+    </body>
+
+</html>
